@@ -19,7 +19,7 @@ init = async () => {
     suits: ['Hearts', 'Spades', 'Clubs', 'Diamonds'],
     values: ['Ace', 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King']
   };
-  let deck = [];
+  const deck = [];
   // Generate deck
   for (let i = 0; i < generateDeck.suits.length; i++) {
     for (let j = 0; j < generateDeck.values.length; j++) {
@@ -27,13 +27,10 @@ init = async () => {
     }
   }
   // Shuffle deck
-  for (let i = deck.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
-    let temp = deck[i];
-    deck[i] = deck[j];
-    deck[j] = temp;
-  };
-
+  deck.sort((a,b) => {
+    return Math.random() - 0.5; 
+  });
+  
   this.setState({deck: deck})
 }
   
@@ -49,7 +46,7 @@ gamerTurnHandler = async (type) => {
     this.setState((prevState, props) => {
       return {
         isDisableButton: true,
-        message: `${type} Win!!!!`
+        message: `${type} win!`
       }
     });
   } else {
@@ -62,7 +59,7 @@ gamerTurnHandler = async (type) => {
     }
   
     if (table.length > 1 && (table[table.length -1].suits === table[table.length -2].suits)) {
-      gamer.push(...table);
+      gamer.unshift(...table);
       table = [];
     } 
    this.setState((prevState, props) => {
